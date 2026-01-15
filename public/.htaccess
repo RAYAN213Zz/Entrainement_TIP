@@ -1,0 +1,22 @@
+# Active toutes les options disponibles pour Apache, sauf l'indexation des répertoires.
+# Cela permet de désactiver l'affichage du contenu d'un dossier si aucun fichier ←-
+Options All -Indexes
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+# Si la requête ne correspond pas a un répertoire existant...
+RewriteCond %{REQUEST_FILENAME} !-d
+# ...et si la requête ne correspond pas a un fichier existant...
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# ...alors redirige toute la requête vers le fichier index.php.
+# La syntaxe de la règle :
+# ^ : Expression régulière qui matche le début de l'URL.
+# index.php : Fichier cible de la redirection.
+ # [QSA,L] :
+# - QSA (Query String Append) : Conserve et ajoute la chaîne de requête initiale.
+
+# - L (Last) : Indique qu'il s'agit de la dernière règle a appliquer si cette condition ←-
+
+RewriteRule ^ index.php [QSA,L]
+ </IfModule>
